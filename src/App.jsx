@@ -3,6 +3,7 @@ import Know_Me from "./Sections/Know_Me";
 import Location from "./Sections/Location";
 import Supplier from "./Sections/Supplier";
 import Receiver from "./Sections/Receiver";
+import Profile from './Sections/Profile'
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <SignIn_Login />
       <Know_Me />
       <Location />
+      <Profile/>
     </>
   );
 };
