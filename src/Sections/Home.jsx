@@ -65,14 +65,15 @@ const Home = () => {
 
     useEffect(() => {
         fecthWaste();
-    },[]);
+    }, []);
 
-    console.log(wastes,oppoRole);
+    console.log(wastes, oppoRole);
 
     return (
         <>
-            <div className="h-[100vh] flex flex-row bg-red-300 ml-[75px]">
-                <div className="w-[70%] h-[100vh] bg-slate-200 overflow-y-auto p-2 flex flex-col md:flex-row">
+            <div className="h-[100vh] flex lg:flex-row flex-col bg-green-300 ml-[75px]">
+                <h1 className="hidden text-2xl font-semibold text-center lg:block">{user.role === 'Receiver' ? 'Our Suppliers' : 'Our Receivers'}</h1>
+                <div className="lg:w-[70%] w-full h-[100vh] bg-slate-200 overflow-y-auto p-2 flex flex-col md:flex-row flex-wrap">
                     {oppoRole.length > 0 ? (
                         oppoRole.map((value, index) => {
                             return (
@@ -92,7 +93,8 @@ const Home = () => {
                         <div></div>
                     )}
                 </div>
-                <div className="w-[30%] h-[100vh] bg-white overflow-y-auto p-2 flex flex-col items-center">
+                <div className="lg:w-[30%] w-full h-[100vh] bg-white overflow-y-auto p-2 flex flex-col items-center">
+                    <h1 className="hidden text-2xl font-semibold text-center underline lg:block">{user.role === 'Receiver' ? 'Added Waste' : 'Requested Waste'}</h1>
                     <div className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit">
                         {wastes.length > 0 ? (
                             wastes.map((value, index) => {

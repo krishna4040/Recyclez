@@ -47,7 +47,7 @@ exports.getUserDetails = async (req, res) => {
 exports.getAllSuppliers = async (req, res) => {
   try {
     const users = await User.find({ role: "Supplier" });
-    if (!users) {
+    if (!users.length) {
       throw new Error("No supplier found");
     }
     res.status(200).json({

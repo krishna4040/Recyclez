@@ -38,7 +38,7 @@ const Location = () => {
   return (
     <section className="w-full h-[100vh] bg-[#2ded74] p-2">
       <div className="p-1 bg-white">
-        <h1 className="text-3xl text-black font-montserrat">Location</h1>
+        <h1 className="text-3xl text-center text-black font-montserrat">Location</h1>
       </div>
 
       {/* Map */}

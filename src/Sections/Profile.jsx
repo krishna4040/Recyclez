@@ -1,17 +1,18 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
 
     const [isEditing, setIsEditing] = useState(false);
-    const [user,setUser] = useState({});
+    const [user, setUser] = useState({});
 
     const handleEditProfile = () => {
         setIsEditing(true);
     };
 
-    const {token} = useSelector(state => state.user);
+    const { token } = useSelector(state => state.user);
 
     const fecthUser = async () => {
         try {
@@ -35,6 +36,11 @@ function Profile() {
         setIsEditing(false);
     };
 
+    const navigate = useNavigate();
+    const clickHandler = () => {
+        navigate('/location');
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-green-100">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
@@ -49,6 +55,9 @@ function Profile() {
                 ) : (
                     <ProfileContact email={user.email} contact={user.contact} />
                 )}
+                <button className='btn solid success' onClick={clickHandler}>
+                    Set Location
+                </button>
             </div>
         </div>
     );
