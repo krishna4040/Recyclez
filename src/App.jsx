@@ -10,6 +10,8 @@ const App = () => {
       <SignIn_Login />
       <Know_Me />
       <Location />
+      <Supplier />
+      <Receiver />
     </>
   );
 };
