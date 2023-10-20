@@ -1,9 +1,10 @@
+import Nav from "../Components/Nav";
+import BG_IMG from "../assets/bg.png";
+
 const Supplier = () => {
   return (
     <>
-      <div>
-        <h1>Supplier Dashboard</h1>
-      </div>
+      <Nav Links={["Profile", "Home"]} imgSrc={BG_IMG} />
     </>
   );
 };
