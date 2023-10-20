@@ -12,6 +12,7 @@ const App = () => {
       <Know_Me />
       <Location />
       <Profile/>
+      <Supplier />
     </>
   );
 };
