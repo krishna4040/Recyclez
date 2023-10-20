@@ -82,7 +82,6 @@ exports.getAllReceivers = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 // exports.contactViaEmail = async (req, res) => {
 //     try {
 //         const { supplierId } = req.body;
@@ -92,16 +91,3 @@ exports.getAllReceivers = async (req, res) => {
 
 //     }
 // }
-=======
-exports.contactViaEmail = async (req, res) => {
-  try {
-    const { supplierId } = req.body;
-    const supplier = await User.findById(supplierId);
-    const mail = await sendMail(
-      supplier.email,
-      "lorem ipsum",
-      "<h1>Hello</h1>"
-    );
-  } catch (error) {}
-};
->>>>>>> 33253e68c41a6881d5aa7203eeab41524836f9f7
