@@ -1,26 +1,36 @@
-import React, { useState } from 'react';
-// import ProfileContact from '../components/Profile/ProfileContact'
-// import ProfileForm from '../components/Profile/ProfileForm'
-// import ProfileHeader from '../components/Profile/ProfileHeader'
+import React, { useState , useEffect } from 'react';
+import axios from 'axios'
+import { useSelector } from 'react-redux';
 
 function Profile() {
-    const [user, setUser] = useState({
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        password: '********',
-        location: 'Your Location',
-        role: 'Supplier',
-        // Other user data
-    });
 
     const [isEditing, setIsEditing] = useState(false);
+    const [user,setUser] = useState({});
 
     const handleEditProfile = () => {
         setIsEditing(true);
     };
 
+    const {token} = useSelector(state => state.user);
+
+    const fecthUser = async () => {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getUserDetails`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setUser(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fecthUser();
+    }, []);
+
     const handleSaveChanges = (updatedUser) => {
-        // Implement logic to save the changes (e.g., make an API request).
         setUser(updatedUser);
         setIsEditing(false);
     };
@@ -29,7 +39,7 @@ function Profile() {
         <div className="flex items-center justify-center min-h-screen bg-green-100">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
                 <ProfileHeader
-                    name={user.name}
+                    name={user.userName}
                     role={user.role}
                     isEditing={isEditing}
                     onEditProfile={handleEditProfile}
@@ -37,7 +47,7 @@ function Profile() {
                 {isEditing ? (
                     <ProfileForm user={user} onSaveChanges={handleSaveChanges} />
                 ) : (
-                    <ProfileContact email={user.email} location={user.location} />
+                    <ProfileContact email={user.email} contact={user.contact} />
                 )}
             </div>
         </div>
@@ -128,13 +138,12 @@ function ProfileForm({ user, onSaveChanges }) {
     );
 }
 
-function ProfileContact({ email, location }) {
+function ProfileContact({ email, contact }) {
     return (
-        <div className="mb-6">
+        <div className="flex flex-col justify-center gap-3 mb-6">
             <h2 className="mb-4 text-xl font-semibold">Contact Information</h2>
-            <p className="text-sm">Email: {email}</p>
-            <p className="text-sm">Location: {location}</p>
-            {/* Add other contact info fields */}
+            <p className="text-sm font-semibold uppercase">Email: <span className='text-xs text-blue-500'>{email}</span></p>
+            <p className="text-sm font-semibold uppercase">Contact: <span className='text-xs text-blue-500'> {contact}</span></p>
         </div>
     );
 }

@@ -11,7 +11,7 @@ router.post('/login', login);
 // router.post('/send-otp',sendotp);
 
 router.post('/selectRole', auth, selectRole);
-router.post('/getUserDetails', auth, getUserDetails);
+router.get('/getUserDetails', auth, getUserDetails);
 router.get('/getAllSuppliers', getAllSuppliers);
 router.get('/getAllReceivers', getAllReceivers);
 

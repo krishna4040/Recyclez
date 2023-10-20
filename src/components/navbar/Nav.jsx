@@ -1,17 +1,59 @@
 import Hamburger from "./Hamburger";
 import CloseIcon from "./CloseIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from 'react-router-dom'
+import { setToken } from '../../store/slice/userSlice'
+import axios from 'axios';
 
-const Nav = ({ Links = [], imgSrc }) => {
+import imgSrc from '../../assets/bg.png'
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
+const Nav = () => {
   const [navLinkVisibility, setNavLinkVisibility] = useState(false);
+  const [user, setUser] = useState({});
+
+  const Links = [
+    { title: 'Home', linkto: '/' },
+    { title: 'Profile', linkto: '/profile' },
+    { title: `${user.role === 'Receiver' ? 'Request waste' : 'Add Waste'}`, linkto: `${user.role === 'Receiver' ? '/waste/request-waste' : '/waste/add-waste'}` },
+  ]
+
+  const { token } = useSelector(state => state.user);
+
+  const fecthUser = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getUserDetails`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setUser(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fecthUser();
+  }, []);
+
+  const dispacth = useDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    dispacth(setToken(null));
+    navigate('/');
+    toast.success('Logout Successfull');
+  }
+
   const linkWrapper = Links.map((value, index) => {
     return (
-      <li
-        key={index}
-        className="p-1 m-1 text-xl text-white capitalize cursor-pointer font-navLinks"
-      >
-        {value}
-      </li>
+        <NavLink to={value.linkto} key={index}>
+          <li className="p-1 m-1 text-xl text-center text-white capitalize cursor-pointer font-navLinks">
+            {value.title}
+          </li>
+        </NavLink>
     );
   });
 
@@ -50,6 +92,7 @@ const Nav = ({ Links = [], imgSrc }) => {
           <div className="p-1 m-1">
             <ul className="flex flex-col items-center justify-center p-1 m-1">
               {linkWrapper}
+              <p onClick={logoutHandler} className="p-1 m-1 text-xl text-center text-white capitalize cursor-pointer font-navLinks">Logout</p>
             </ul>
             <div className="flex items-center justify-center p-1 m-1">
               <div className="flex flex-col items-center justify-center p-1 m-1">

@@ -1,5 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import BG_IMG from "../assets/bg.png";
 import BG_IMG3 from "../assets/bg3.png";
+import axios from 'axios'
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const Know_Me = () => {
   const knowMeBoxes = (text, imgSrc, clickEvent) => {
@@ -20,6 +24,29 @@ const Know_Me = () => {
     );
   };
 
+  const navigate = useNavigate();
+  const { token } = useSelector(state => state.user);
+
+  const recClickHandler = async () => {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}selectRole`, { role: "Receiver" }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    toast.success('You are a receiver');
+    navigate('/');
+  }
+  
+  const supClickHandler = async () => {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}selectRole`, { role: "Supplier" }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    toast.success('You are a supplier');
+    navigate('/');
+  }
+
   return (
     <>
       <section className="w-full h-[100vh] bg-[#0c9f42] p-2">
@@ -30,8 +57,8 @@ const Know_Me = () => {
         </div>
 
         <div className="p-1 m-2 flex flex-col md:flex-row h-[85vh] items-center justify-center">
-          {knowMeBoxes("Supplier", BG_IMG)}
-          {knowMeBoxes("Receiver", BG_IMG3)}
+          {knowMeBoxes("Supplier", BG_IMG, supClickHandler)}
+          {knowMeBoxes("Receiver", BG_IMG3, recClickHandler)}
         </div>
       </section>
     </>

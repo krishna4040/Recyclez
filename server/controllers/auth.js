@@ -6,8 +6,8 @@ const { cdupload } = require("../utils/cloudinary");
 
 exports.signup = async (req, res) => {
   try {
-    const { email, password, userName, contact, location } = req.body;
-    if (!email || !password || !contact || !location || !userName) {
+    const { email, password, userName, contact } = req.body;
+    if (!email || !password || !contact || !userName) {
       throw new Error("All fields are required");
     }
     const check = await User.findOne({ email });
@@ -29,7 +29,6 @@ exports.signup = async (req, res) => {
       password: hash,
       userName,
       contact,
-      location,
     });
     if (!user) {
       throw new Error("smth went wrong while signing up");
