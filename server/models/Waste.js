@@ -16,6 +16,7 @@ const wasteSchema = new mongoose.Schema({
     amount: Number,
     price: Number,
     departue: Date,
+    recycled: Boolean
 });
 
 module.exports = mongoose.model('Waste', wasteSchema);

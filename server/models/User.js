@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Waste'
     },
+    recycledWaste: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Waste'
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);
