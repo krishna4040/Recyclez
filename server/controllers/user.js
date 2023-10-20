@@ -82,14 +82,12 @@ exports.getAllReceivers = async (req, res) => {
   }
 };
 
-exports.contactViaEmail = async (req, res) => {
-  try {
-    const { supplierId } = req.body;
-    const supplier = await User.findById(supplierId);
-    const mail = await sendMail(
-      supplier.email,
-      "lorem ipsum",
-      "<h1>Hello</h1>"
-    );
-  } catch (error) {}
-};
+// exports.contactViaEmail = async (req, res) => {
+//     try {
+//         const { supplierId } = req.body;
+//         const supplier = await User.findById(supplierId);
+//         const mail = await sendMail(supplier.email,"lorem ipsum",'<h1>Hello</h1>');
+//     } catch (error) {
+
+//     }
+// }

@@ -1,4 +1,4 @@
-import Nav from "../Components/Nav";
+import Nav from "../components/navbar/Nav";
 import BG_IMG from "../assets/bg.png";
 
 const Receiver = () => {
