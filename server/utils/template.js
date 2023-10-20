@@ -1,5 +1,5 @@
 exports.template = (otp) => {
-    return `
+  return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -71,7 +71,5 @@ exports.template = (otp) => {
         </div>
     </body>
     </html>
-
-    
-    `
-}
+    `;
+};
