@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setLocation } from '../store/slice/userSlice'
 import axios from 'axios'
+import MAP_IMG from "../assets/map.png";
 
 const Location = () => {
   const [latitude, setLatitude] = useState(null);
@@ -37,11 +38,14 @@ const Location = () => {
 
   return (
     <section className="w-full h-[100vh] bg-[#2ded74] p-2">
-      <div className="p-1 bg-white">
+      <div className="p-1">
         <h1 className="text-3xl text-center text-black font-montserrat">Location</h1>
       </div>
 
       {/* Map */}
+      <div className="flex items-center justify-center w-full">
+        <img src={MAP_IMG} alt="Map" className="w-1/2 mx-auto ml-[180px] border-2 border-solid border-black p-1" />
+      </div>
 
       {/* Longitude and Latitude */}
       <div className="flex flex-col items-center justify-center p-1 m-1 rounded-lg bg-slate-50">

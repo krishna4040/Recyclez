@@ -39,7 +39,6 @@ exports.createWasteDetails = async (req, res) => {
 exports.requestedWaste = async (req, res) => {
   try {
     const wastes = await Waste.find({}).populate("user").exec();
-    console.log(wastes);
     const requestedWaste = [];
     wastes.forEach((waste) => {
       if (waste.user.role === "Receiver") {
