@@ -11,10 +11,14 @@ const userSchema = new mongoose.Schema({
         enum: ['Supplier', 'Receiver']
     },
     location: String,
-    waste: {
+    addedWaste: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Waste'
-    },
+    }],
+    requestedWaste: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Waste'
+    }],
     recycledWaste: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Waste'
