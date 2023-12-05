@@ -13,7 +13,7 @@ import Nav from "./components/navbar/Nav";
 
 const App = () => {
 
-  const { token } = useSelector(state => state.user);
+  const { token } = useSelector(state => state.auth);
   const location = useLocation();
 
   return (
@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/waste/request-waste" element={<RequestWaste />} />
           <Route path="/waste/add-waste" element={<AddWaste />} />
         </Route>
-        <Route path="*" element={<Error/>} />
+        <Route path="*" element={<Error />} />
       </Routes>
       {token && location.pathname !== '/role' && <Nav />}
     </div>

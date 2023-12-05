@@ -21,6 +21,26 @@ exports.selectRole = async (req, res) => {
   }
 };
 
+exports.getCurrentUserDetails = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const user = await User.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({
+      success: true,
+      messgae: 'current user details fecthed successfully',
+      data: user
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
 exports.getUserDetails = async (req, res) => {
   try {
     const { id } = req.query;

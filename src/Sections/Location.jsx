@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { setLocation } from '../store/slice/userSlice'
 import axios from 'axios'
 import MAP_IMG from "../assets/map.png";
 

@@ -118,3 +118,43 @@ exports.confirmRecycle = async (req, res) => {
     });
   }
 }
+
+exports.getCategoryWasteAdded = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const wastes = await Waste.find({ category, AddedWaste: true }).populate('user');
+    if (!wastes) {
+      throw new Error('no added waste found under that category');
+    }
+    res.status(200).json({
+      success: true,
+      message: 'waste details fecthed succsesfully',
+      data: wastes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
+
+exports.getCategoryWasteRequested = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const wastes = await Waste.find({ category, requestedWaste: true }).populate('user');
+    if (!wastes) {
+      throw new Error('no added waste found under that category');
+    }
+    res.status(200).json({
+      success: true,
+      message: 'waste details fecthed succsesfully',
+      data: wastes
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}

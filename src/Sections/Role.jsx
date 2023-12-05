@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 import BG_IMG from "../assets/bg.png";
 import BG_IMG3 from "../assets/bg3.png";
 import axios from 'axios'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import { setRole } from '../store/slice/userSlice'
 
 const Know_Me = () => {
   const knowMeBoxes = (text, imgSrc, clickEvent) => {
@@ -24,25 +25,34 @@ const Know_Me = () => {
     );
   };
 
+  const dispacth = useDispatch();
   const navigate = useNavigate();
-  const { token } = useSelector(state => state.user);
+  const { token } = useSelector(state => state.auth);
 
   const recClickHandler = async () => {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}selectRole`, { role: "Receiver" }, {
+    const response = await axios.put(`${import.meta.env.VITE_BASE_URL}selectRole`, { role: "Receiver" }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
+    if (!response.data.success) {
+      toast.error("unable to select role");
+    }
+    dispacth(setRole("Receiver"));
     toast.success('You are a receiver');
     navigate('/');
   }
-  
+
   const supClickHandler = async () => {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}selectRole`, { role: "Supplier" }, {
+    const response = await axios.put(`${import.meta.env.VITE_BASE_URL}selectRole`, { role: "Supplier" }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
+    if (!response.data.success) {
+      toast.error("unable to select role");
+    }
+    dispacth(setRole("Supplier"));
     toast.success('You are a supplier');
     navigate('/');
   }

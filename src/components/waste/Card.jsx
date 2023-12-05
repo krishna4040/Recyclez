@@ -1,11 +1,11 @@
-const Card = ({ imgSrc, text }) => {
+const Card = ({ imgSrc, text, category, setCategory }) => {
   return (
-    <>
-      <div className="cursor-pointer p-1 m-1 border-2 border-solid rounded-md">
+    <button onClick={() => { setCategory(text) }} className={`${category === text ? 'border-2 border-black rounded-md' : ''}`}>
+      <div className="p-1 m-1 border-2 border-solid rounded-md cursor-pointer">
         <img src={imgSrc} alt="photo" className="w-[150px] h-auto" />
-        <h1 className="font-pacifico text-black text-md m-1">{text}</h1>
+        <h1 className="m-1 text-black font-pacifico text-md">{text}</h1>
       </div>
-    </>
+    </button>
   );
 };
 

@@ -1,33 +1,43 @@
 import WasteProductCard from "../components/home/WasteProductCard";
 import UserCard from "../components/home/UserCard";
 import axios from 'axios'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from 'react';
-import fakewastes from "./FakeWaste";
+import { setUser } from '../store/slice/userSlice'
+import toast from "react-hot-toast";
 
 const Home = () => {
 
-    const { token } = useSelector(state => state.user);
-    const [user, setUser] = useState({});
+    const dispacth = useDispatch();
+    const { token } = useSelector(state => state.auth);
+    const user = useSelector(state => state.user);
+    const [oppoRole, setOppoRole] = useState([]);
+    const [wastes, setWastes] = useState([]);
 
     const fecthUser = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getUserDetails`, {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getCurrentUserDetails`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
-            setUser(response.data.data);
+            });
+            if (!response.data.success) {
+                toast.error("unable to fecth user details");
+            }
+            const { _id, userName, email, contact, addedWaste, recycledWaste, requestedWaste } = response.data.data;
+            dispacth(setUser({
+                _id,
+                userName,
+                email,
+                contact,
+                addedWaste,
+                recycledWaste,
+                requestedWaste
+            }));
         } catch (error) {
             console.log(error);
         }
     }
-
-    useEffect(() => {
-        fecthUser();
-    }, []);
-
-    const [oppoRole, setOppoRole] = useState([]);
 
     const fecthOppositeRole = async () => {
         try {
@@ -41,30 +51,29 @@ const Home = () => {
             }
         } catch (error) {
             console.log(error);
+            toast.error("uable to fecth opposite role");
         }
     }
 
-    useEffect(() => {
-        fecthOppositeRole();
-    }, []);
-
-    const [wastes, setWastes] = useState([]);
     const fecthWaste = async () => {
         try {
             if (user.role === 'Receiver') {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}suppliedWaste`);
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}added-waste`);
                 setWastes(response.data.data);
             }
             if (user.role === 'Supplier') {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}requestedWaste`);
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}requested-waste`);
                 setWastes(response.data.data);
             }
         } catch (error) {
             console.log(error);
+            toast.error("unable to fecth wastes");
         }
     }
 
     useEffect(() => {
+        fecthUser();
+        fecthOppositeRole();
         fecthWaste();
     }, []);
 
@@ -76,10 +85,7 @@ const Home = () => {
                     {oppoRole.length > 0 ? (
                         oppoRole.map((value, index) => {
                             return (
-                                <div
-                                    key={index}
-                                    className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit"
-                                >
+                                <div key={index} className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit">
                                     <UserCard
                                         username={value.username}
                                         email={value.email}
@@ -89,14 +95,14 @@ const Home = () => {
                             );
                         })
                     ) : (
-                        <div></div>
+                        <div className="loader"></div>
                     )}
                 </div>
                 <div className="lg:w-[30%] w-full h-[100vh] bg-white overflow-y-auto p-2 flex flex-col items-center">
                     <h1 className="hidden text-2xl font-semibold text-center underline lg:block">{user.role === 'Receiver' ? 'Added Waste' : 'Requested Waste'}</h1>
                     <div className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit">
-                        {fakewastes.length > 0 ? (
-                            fakewastes.map((value, index) => {
+                        {wastes.length > 0 ? (
+                            wastes.map((value, index) => {
                                 return (
                                     <div key={index} className="m-2">
                                         <WasteProductCard
@@ -110,7 +116,7 @@ const Home = () => {
                                 );
                             })
                         ) : (
-                            <div></div>
+                            <div className="loader"></div>
                         )}
                     </div>
                 </div>

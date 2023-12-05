@@ -1,35 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function Profile() {
 
     const [isEditing, setIsEditing] = useState(false);
-    const [user, setUser] = useState({});
-
+    const user = useSelector(state => state.user);
     const handleEditProfile = () => {
         setIsEditing(true);
     };
-
-    const { token } = useSelector(state => state.user);
-
-    const fecthUser = async () => {
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getUserDetails`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            setUser(response.data.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        fecthUser();
-    }, []);
 
     const handleSaveChanges = (updatedUser) => {
         setUser(updatedUser);
@@ -151,8 +130,8 @@ function ProfileContact({ email, contact }) {
     return (
         <div className="flex flex-col justify-center gap-3 mb-6">
             <h2 className="mb-4 text-xl font-semibold">Contact Information</h2>
-            <p className="text-sm font-semibold uppercase">Email: <span className='text-xs text-blue-500'>{email}</span></p>
-            <p className="text-sm font-semibold uppercase">Contact: <span className='text-xs text-blue-500'> {contact}</span></p>
+            <p className="text-sm font-semibold">Email: <span className='text-xs text-blue-500'>{email}</span></p>
+            <p className="text-sm font-semibold">Contact: <span className='text-xs text-blue-500'> {contact}</span></p>
         </div>
     );
 }

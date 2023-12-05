@@ -1,9 +1,8 @@
 import Hamburger from "./Hamburger";
 import CloseIcon from "./CloseIcon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from 'react-router-dom'
-import { setToken } from '../../store/slice/userSlice'
-import axios from 'axios';
+import { setToken } from '../../store/slice/authSlice'
 
 import imgSrc from '../../assets/bg.png'
 import { useDispatch, useSelector } from "react-redux";
@@ -11,32 +10,13 @@ import toast from "react-hot-toast";
 
 const Nav = () => {
   const [navLinkVisibility, setNavLinkVisibility] = useState(false);
-  const [user, setUser] = useState({});
+  const user = useSelector(state => state.user);
 
   const Links = [
     { title: 'Home', linkto: '/' },
     { title: 'Profile', linkto: '/profile' },
     { title: `${user.role === 'Receiver' ? 'Request waste' : 'Add Waste'}`, linkto: `${user.role === 'Receiver' ? '/waste/request-waste' : '/waste/add-waste'}` },
   ]
-
-  const { token } = useSelector(state => state.user);
-
-  const fecthUser = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getUserDetails`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      setUser(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    fecthUser();
-  }, []);
 
   const dispacth = useDispatch();
   const navigate = useNavigate();
@@ -49,11 +29,11 @@ const Nav = () => {
 
   const linkWrapper = Links.map((value, index) => {
     return (
-        <NavLink to={value.linkto} key={index}>
-          <li className="p-1 m-1 text-xl text-center text-white capitalize cursor-pointer font-navLinks">
-            {value.title}
-          </li>
-        </NavLink>
+      <NavLink to={value.linkto} key={index}>
+        <li className="p-1 m-1 text-xl text-center text-white capitalize cursor-pointer font-navLinks">
+          {value.title}
+        </li>
+      </NavLink>
     );
   });
 
@@ -84,7 +64,7 @@ const Nav = () => {
           <div className="flex items-center justify-center h-full">
             <div className="m-1 p-1 rotate-[-90deg]">
               <span className="p-1 text-4xl tracking-widest text-white">
-                Innovation
+                Recyclez
               </span>
             </div>
           </div>

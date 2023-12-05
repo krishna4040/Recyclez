@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { BtnWrapper } from './BtnWrapper'
 import { InputWrapper } from './Inputwrapper'
 import axios from 'axios'
-import { setToken } from '../../store/slice/userSlice'
+import { setToken } from '../../store/slice/authSlice'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
-const Login = ({ setSignupstatus }) => {
+const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,12 +22,15 @@ const Login = ({ setSignupstatus }) => {
             password
         });
         dispacth(setToken(response.data.data));
+        if (!response.data.success) {
+            toast.error("unable to login in");
+        }
         toast.success('Logged in successfully');
         navigate('/role');
     }
 
     return (
-        <form className='flex flex-col items-center justify-center' onSubmit={sumbitHandler}>
+        <form className='flex flex-col items-center justify-center w-full gap-5 p-3' onSubmit={sumbitHandler}>
             {InputWrapper("email", "email", email, setEmail)}
             {InputWrapper("secret", "password", password, setPassword)}
             {BtnWrapper("login")}
