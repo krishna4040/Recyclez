@@ -1,14 +1,11 @@
 const User = require("../models/User");
-const { cdupload } = require("../utils/cloudinary");
-const { sendMail } = require("../utils/nodemailer");
-const { template } = require("../utils/template");
 require("dotenv").config();
 
 exports.selectRole = async (req, res) => {
   try {
     const { role } = req.body;
     if (!role) {
-      throw new Error("Roe not provided");
+      throw new Error("Role not provided");
     }
     const { id } = req.user;
     await User.findByIdAndUpdate(id, { role });
@@ -24,9 +21,29 @@ exports.selectRole = async (req, res) => {
   }
 };
 
-exports.getUserDetails = async (req, res) => {
+exports.getCurrentUserDetails = async (req, res) => {
   try {
     const { id } = req.user;
+    const user = await User.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({
+      success: true,
+      messgae: 'current user details fecthed successfully',
+      data: user
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+exports.getUserDetails = async (req, res) => {
+  try {
+    const { id } = req.query;
     const user = await User.findById(id);
     if (!user) {
       throw new Error("User not found");
@@ -44,10 +61,70 @@ exports.getUserDetails = async (req, res) => {
   }
 };
 
+exports.getRecycledWasteByaUser = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const user = await User.findById(id).populate('recycledWaste').select('recycledWaste');
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({
+      success: true,
+      message: "recycled waste by a user fecthed succesfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+exports.getAddedWasteByaSupplier = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const user = await User.findById(id).populate('addedWaste').select('addedWaste');
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({
+      success: true,
+      message: "added waste by a supplier fecthed succesfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+exports.getRequestedWasteByaReceiver = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const user = await User.findById(id).populate('requestedWaste').select('requestedWaste');
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({
+      success: true,
+      message: "requested waste by a receiver fecthed succesfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
 exports.getAllSuppliers = async (req, res) => {
   try {
     const users = await User.find({ role: "Supplier" });
-    if (!users) {
+    if (!users.length) {
       throw new Error("No supplier found");
     }
     res.status(200).json({
@@ -81,13 +158,3 @@ exports.getAllReceivers = async (req, res) => {
     });
   }
 };
-
-// exports.contactViaEmail = async (req, res) => {
-//     try {
-//         const { supplierId } = req.body;
-//         const supplier = await User.findById(supplierId);
-//         const mail = await sendMail(supplier.email,"lorem ipsum",'<h1>Hello</h1>');
-//     } catch (error) {
-
-//     }
-// }

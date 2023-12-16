@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const wasteSchema = new mongoose.Schema({
-    user:{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
@@ -14,9 +14,20 @@ const wasteSchema = new mongoose.Schema({
         enum: ['Kg', 'pcs']
     },
     amount: Number,
+    requestedWaste: {
+        type: Boolean,
+        default: false
+    },
+    AddedWaste: {
+        type: Boolean,
+        default: false
+    },
     price: Number,
     departue: Date,
-    recycled: Boolean
+    recycled: {
+        type: Boolean,
+        default: false
+    }
 });
 
 module.exports = mongoose.model("Waste", wasteSchema);

@@ -1,35 +1,30 @@
 import React, { useState } from 'react';
-// import ProfileContact from '../components/Profile/ProfileContact'
-// import ProfileForm from '../components/Profile/ProfileForm'
-// import ProfileHeader from '../components/Profile/ProfileHeader'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
-    const [user, setUser] = useState({
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        password: '********',
-        location: 'Your Location',
-        role: 'Supplier',
-        // Other user data
-    });
 
     const [isEditing, setIsEditing] = useState(false);
-
+    const user = useSelector(state => state.user);
     const handleEditProfile = () => {
         setIsEditing(true);
     };
 
     const handleSaveChanges = (updatedUser) => {
-        // Implement logic to save the changes (e.g., make an API request).
         setUser(updatedUser);
         setIsEditing(false);
     };
+
+    const navigate = useNavigate();
+    const clickHandler = () => {
+        navigate('/location');
+    }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-green-100">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
                 <ProfileHeader
-                    name={user.name}
+                    name={user.userName}
                     role={user.role}
                     isEditing={isEditing}
                     onEditProfile={handleEditProfile}
@@ -37,8 +32,11 @@ function Profile() {
                 {isEditing ? (
                     <ProfileForm user={user} onSaveChanges={handleSaveChanges} />
                 ) : (
-                    <ProfileContact email={user.email} location={user.location} />
+                    <ProfileContact email={user.email} contact={user.contact} />
                 )}
+                <button className='btn solid success' onClick={clickHandler}>
+                    Set Location
+                </button>
             </div>
         </div>
     );
@@ -128,13 +126,12 @@ function ProfileForm({ user, onSaveChanges }) {
     );
 }
 
-function ProfileContact({ email, location }) {
+function ProfileContact({ email, contact }) {
     return (
-        <div className="mb-6">
+        <div className="flex flex-col justify-center gap-3 mb-6">
             <h2 className="mb-4 text-xl font-semibold">Contact Information</h2>
-            <p className="text-sm">Email: {email}</p>
-            <p className="text-sm">Location: {location}</p>
-            {/* Add other contact info fields */}
+            <p className="text-sm font-semibold">Email: <span className='text-xs text-blue-500'>{email}</span></p>
+            <p className="text-sm font-semibold">Contact: <span className='text-xs text-blue-500'> {contact}</span></p>
         </div>
     );
 }

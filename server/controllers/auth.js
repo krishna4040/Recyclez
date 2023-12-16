@@ -6,8 +6,8 @@ const { cdupload } = require("../utils/cloudinary");
 
 exports.signup = async (req, res) => {
   try {
-    const { email, password, userName, contact, location } = req.body;
-    if (!email || !password || !contact || !location || !userName) {
+    const { email, password, userName, contact } = req.body;
+    if (!email || !password || !contact || !userName) {
       throw new Error("All fields are required");
     }
     const check = await User.findOne({ email });
@@ -15,21 +15,12 @@ exports.signup = async (req, res) => {
       throw new Error("user already signed up");
     }
 
-    // Email-verification
-    // const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
-    // if (!response.length) {
-    //     throw new Error('OTP not found');
-    // }
-    // if (otp != response[0].otp) {
-    //     throw new Error('Invalid OTP');
-    // }
     const hash = await bcrypt.hash(password, 10);
     const user = await User.create({
       email,
       password: hash,
       userName,
       contact,
-      location,
     });
     if (!user) {
       throw new Error("smth went wrong while signing up");
@@ -45,33 +36,6 @@ exports.signup = async (req, res) => {
     });
   }
 };
-
-// exports.sendotp = async (req, res) => {
-//     try {
-//         const { email } = req.body;
-//         const checkUserPresent = await User.findOne({ email });
-//         if (checkUserPresent) {
-//             throw new Error('USer already present');
-//         }
-
-//         let otp = otpGenerator.generate(6, {
-//             upperCaseAlphabets: false,
-//             lowerCaseAlphabets: false,
-//             specialChars: false,
-//         });
-//         const result = await OTP.findOne({ otp: otp });
-//         while (result) { // making otp unique
-//             otp = otpGenerator.generate(6, { upperCaseAlphabets: false });
-//         }
-//         await OTP.create({ email, otp });
-//         res.status(200).json({
-//             success: true,
-//             message: "OTP Sent Successfully",
-//         });
-//     } catch (error) {
-//         return res.status(500).json({ success: false, message: error.message });
-//     }
-// };
 
 exports.login = async (req, res) => {
   try {

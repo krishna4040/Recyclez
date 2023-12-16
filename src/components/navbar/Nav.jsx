@@ -1,17 +1,39 @@
 import Hamburger from "./Hamburger";
 import CloseIcon from "./CloseIcon";
 import { useState } from "react";
+import { NavLink, useNavigate } from 'react-router-dom'
+import { setToken } from '../../store/slice/authSlice'
 
-const Nav = ({ Links = [], imgSrc }) => {
+import imgSrc from '../../assets/bg.png'
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
+const Nav = () => {
   const [navLinkVisibility, setNavLinkVisibility] = useState(false);
+  const user = useSelector(state => state.user);
+
+  const Links = [
+    { title: 'Home', linkto: '/' },
+    { title: 'Profile', linkto: '/profile' },
+    { title: `${user.role === 'Receiver' ? 'Request waste' : 'Add Waste'}`, linkto: `${user.role === 'Receiver' ? '/waste/request-waste' : '/waste/add-waste'}` },
+  ]
+
+  const dispacth = useDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    dispacth(setToken(null));
+    navigate('/');
+    toast.success('Logout Successfull');
+  }
+
   const linkWrapper = Links.map((value, index) => {
     return (
-      <li
-        key={index}
-        className="p-1 m-1 text-xl text-white capitalize cursor-pointer font-navLinks"
-      >
-        {value}
-      </li>
+      <NavLink to={value.linkto} key={index}>
+        <li className="p-1 m-1 text-xl text-center text-white capitalize cursor-pointer font-navLinks">
+          {value.title}
+        </li>
+      </NavLink>
     );
   });
 
@@ -42,7 +64,7 @@ const Nav = ({ Links = [], imgSrc }) => {
           <div className="flex items-center justify-center h-full">
             <div className="m-1 p-1 rotate-[-90deg]">
               <span className="p-1 text-4xl tracking-widest text-white">
-                Innovation
+                Recyclez
               </span>
             </div>
           </div>
@@ -50,6 +72,7 @@ const Nav = ({ Links = [], imgSrc }) => {
           <div className="p-1 m-1">
             <ul className="flex flex-col items-center justify-center p-1 m-1">
               {linkWrapper}
+              <p onClick={logoutHandler} className="p-1 m-1 text-xl text-center text-white capitalize cursor-pointer font-navLinks">Logout</p>
             </ul>
             <div className="flex items-center justify-center p-1 m-1">
               <div className="flex flex-col items-center justify-center p-1 m-1">
