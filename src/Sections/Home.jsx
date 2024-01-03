@@ -1,128 +1,50 @@
-import WasteProductCard from "../components/home/WasteProductCard";
-import UserCard from "../components/home/UserCard";
-import axios from 'axios'
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from 'react';
-import { setUser } from '../store/slice/userSlice'
-import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { HomeNav } from "../RootImport.js";
 
 const Home = () => {
+  const navigate = useNavigate();
 
-    const dispacth = useDispatch();
-    const { token } = useSelector(state => state.auth);
-    const user = useSelector(state => state.user);
-    const [oppoRole, setOppoRole] = useState([]);
-    const [wastes, setWastes] = useState([]);
-
-    const fecthUser = async () => {
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getCurrentUserDetails`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (!response.data.success) {
-                toast.error("unable to fecth user details");
-            }
-            const { _id, userName, email, contact, addedWaste, recycledWaste, requestedWaste } = response.data.data;
-            dispacth(setUser({
-                _id,
-                userName,
-                email,
-                contact,
-                addedWaste,
-                recycledWaste,
-                requestedWaste
-            }));
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const fecthOppositeRole = async () => {
-        try {
-            if (user.role === 'Receiver') {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getAllSuppliers`);
-                setOppoRole(response.data.data);
-            }
-            if (user.role === 'Supplier') {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}getAllReceivers`);
-                setOppoRole(response.data.data);
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error("uable to fecth opposite role");
-        }
-    }
-
-    const fecthWaste = async () => {
-        try {
-            if (user.role === 'Receiver') {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}added-waste`);
-                setWastes(response.data.data);
-            }
-            if (user.role === 'Supplier') {
-                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}requested-waste`);
-                setWastes(response.data.data);
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error("unable to fecth wastes");
-        }
-    }
-
-    useEffect(() => {
-        fecthUser();
-        fecthOppositeRole();
-        fecthWaste();
-    }, []);
-
-    return (
-        <>
-            <div className="h-[100vh] flex lg:flex-row flex-col bg-green-300 ml-[75px]">
-                <h1 className="hidden text-2xl font-semibold text-center lg:block">{user.role === 'Receiver' ? 'Our Suppliers' : 'Our Receivers'}</h1>
-                <div className="lg:w-[70%] w-full h-[100vh] bg-slate-200 overflow-y-auto p-2 flex flex-col md:flex-row flex-wrap">
-                    {oppoRole.length > 0 ? (
-                        oppoRole.map((value, index) => {
-                            return (
-                                <div key={index} className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit">
-                                    <UserCard
-                                        username={value.username}
-                                        email={value.email}
-                                        contact={value.contact}
-                                    />
-                                </div>
-                            );
-                        })
-                    ) : (
-                        <div className="loader"></div>
-                    )}
-                </div>
-                <div className="lg:w-[30%] w-full h-[100vh] bg-white overflow-y-auto p-2 flex flex-col items-center">
-                    <h1 className="hidden text-2xl font-semibold text-center underline lg:block">{user.role === 'Receiver' ? 'Added Waste' : 'Requested Waste'}</h1>
-                    <div className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit">
-                        {wastes.length > 0 ? (
-                            wastes.map((value, index) => {
-                                return (
-                                    <div key={index} className="m-2">
-                                        <WasteProductCard
-                                            category={value.category}
-                                            measuringUnit={value.measuringUnit}
-                                            amount={value.amount}
-                                            price={value.price}
-                                            departure={value.departure}
-                                        />
-                                    </div>
-                                );
-                            })
-                        ) : (
-                            <div className="loader"></div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <HomeNav />
+      <section className="w-full min-h-screen flex flex-col items-center bg-black">
+        <div className="w-full m-1 flex flex-col items-center justify-between">
+          <h1 className="text-7xl md:text-9xl font-black capitalize bg-gradient-to-r from-fuchsia-400 via-pink-400 to-fuchsia-500 text-transparent bg-clip-text m-1">
+            Recyclez
+          </h1>
+          <span className="text-base text-white m-1 font-light">
+            An End-to-End Waste Management System
+          </span>
+        </div>
+        <div className="w-full max-w-lg flex flex-col items-start justify-between m-2">
+          <p className="text-white font-light text-center p-1 m-2 flex flex-col">
+            <span className="text-3xl m-1 text-pink-500">{`####`}</span>
+            <span className="text-white font-light text-base md:text-xl hover:bg-gradient-to-b hover:from-yellow-500 hover:to-orange-500 hover:text-transparent hover:bg-clip-text">
+              In our waste management system, we empower users to foster a
+              culture of sustainability by providing a platform to share items
+              they no longer need. By promoting the exchange of unused goods, we
+              aim to reduce waste and encourage a sense of community
+              collaboration. Users can easily share items that still hold value,
+              fostering a more sustainable and environmentally conscious
+              lifestyle. Together, we contribute to a greener future by
+              extending the life cycle of goods and minimizing the environmental
+              impact of unnecessary waste.
+            </span>
+            <span className="text-3xl m-1 text-pink-500">{`####`}</span>
+          </p>
+          <button
+            type="button"
+            className="px-3 py-4 rounded-full shadow-md shadow-slate-200 text-slate-300 font-black text-xl self-center m-3"
+            onClick={() => {
+              navigate("/about-us");
+            }}
+          >
+            Want to Know More
+          </button>
+        </div>
+      </section>
+    </>
+  );
 };
 
 export default Home;
