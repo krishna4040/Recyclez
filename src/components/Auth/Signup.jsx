@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const Signup = () => {
+const Signup = ({ signUpStatus }) => {
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -45,6 +45,7 @@ const Signup = () => {
         throw new Error(response.data.message);
       }
       toast.success("signed up suucessfully");
+      signUpStatus(false);
     } catch (err) {
       console.error(err);
     } finally {

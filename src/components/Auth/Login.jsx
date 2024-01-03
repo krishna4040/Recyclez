@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { setToken } from "../../store/slice/authSlice";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { setToken } from "../../RootImport.js";
 
 const Login = () => {
   const dispacth = useDispatch();
@@ -44,13 +44,13 @@ const Login = () => {
         }
       );
 
-      dispacth(setToken(response.data.data));
-      if (!response.data.success) {
+      dispacth(setToken(response?.data?.data));
+      if (!response?.data?.success) {
         toast.error("unable to login in");
       }
 
       toast.success("Logged in successfully");
-      navigate("/role");
+      navigate("/user/dashboard");
     } catch (e) {
       console.error(e);
     } finally {

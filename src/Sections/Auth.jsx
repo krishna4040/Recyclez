@@ -1,7 +1,5 @@
 import { useState } from "react";
-import Login from "../components/Auth/Login";
-import Signup from "../components/Auth/Signup";
-import OAuth from "../components/Auth/OAuth";
+import { Login, Signup, OAuth } from "../RootImport.js";
 
 const Auth = () => {
   const [signupstatus, setSignupstatus] = useState(true);
@@ -26,7 +24,7 @@ const Auth = () => {
               <h3 className="text-2xl font-black text-slate-800 m-2">
                 Don{`'`}t have an Account ?
               </h3>
-              <Signup />
+              <Signup signUpStatus={setSignupstatus} />
               <p className="font-light text-base text-slate-600 m-2">
                 Already have an Account.{" "}
                 <span

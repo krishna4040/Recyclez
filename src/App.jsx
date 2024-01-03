@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
+  Nav,
   Home,
   Auth,
   PrivateRoute,
