@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { HomeNav } from "../RootImport.js";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -6,6 +7,7 @@ const Home = () => {
   return (
     <>
       <section className="w-full min-h-screen flex flex-col items-center bg-black">
+        <HomeNav />
         <div className="w-full m-1 flex flex-col items-center justify-between">
           <h1 className="text-7xl md:text-9xl font-black capitalize bg-gradient-to-r from-fuchsia-400 via-pink-400 to-fuchsia-500 text-transparent bg-clip-text m-1">
             Recyclez
