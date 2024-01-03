@@ -1,7 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
-  Nav,
   Home,
   AboutUs,
   Auth,
@@ -35,7 +34,6 @@ const App = () => {
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
-      {token && location.pathname !== "/role" && <Nav />}
     </div>
   );
 };

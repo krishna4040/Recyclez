@@ -1,5 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Nav } from "../../RootImport.js";
 
 const PrivateRoute = () => {
   const user = useSelector((state) => state.auth);
@@ -7,7 +8,10 @@ const PrivateRoute = () => {
   return (
     <>
       {user.token ? (
-        <Outlet />
+        <>
+          <Nav />
+          <Outlet />
+        </>
       ) : (
         <Navigate to={"/auth"} />
       )}
