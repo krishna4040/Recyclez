@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import {
   Nav,
   Home,
+  AboutUs,
   Auth,
   PrivateRoute,
   Dashboard,
@@ -22,6 +23,7 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/auth" element={!token && <Auth />} />
         <Route element={<PrivateRoute />}>
           <Route path="/user/dashboard" element={<Dashboard />} />

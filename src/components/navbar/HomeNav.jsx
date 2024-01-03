@@ -8,7 +8,7 @@ const HomeNav = () => {
 
   return (
     <>
-      <nav className="bg-black shadow-md shadow-slate-100 w-full px-5 py-2 flex flex-row items-center justify-between mb-3">
+      <nav className="bg-black border-b-2 border-solid border-slate-100 w-full px-5 py-2 flex flex-row items-center justify-between">
         <h1
           className="flex flex-row items-center justify-between font-black cursor-pointer p-2 m-1 bg-white rounded-full text-slate-700 text-xl"
           onClick={() => {
