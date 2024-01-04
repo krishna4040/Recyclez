@@ -9,8 +9,10 @@ const PrivateRoute = () => {
     <>
       {user.token ? (
         <>
-          <Nav />
-          <Outlet />
+          <div className="flex lg:flex-row flex-col lg:items-center">
+            <Nav />
+            <Outlet />
+          </div>
         </>
       ) : (
         <Navigate to={"/auth"} />
