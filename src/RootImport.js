@@ -22,6 +22,7 @@ export { default as UserCard } from "./components/home/UserCard";
 // store
 export { setUser as setUser } from "./store/slice/userSlice";
 export { setToken as setToken } from "./store/slice/authSlice";
+export { setRole as setRole } from "./store/slice/userSlice";
 
 // Assets
 export { default as LOGO } from "./assets/bg.png";
