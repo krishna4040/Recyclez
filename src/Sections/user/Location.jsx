@@ -3,7 +3,7 @@ import { MAPIMG, SearchLocationBox } from "../../RootImport.js";
 const Location = () => {
   return (
     <>
-      <section className="w-full h-screen overflow-x-hidden overflow-y-auto bg-gradient-to-b from-blue-200 via-sky-300 to-cyan-500 flex flex-col items-center">
+      <section className="w-full lg:h-screen min-h-screen overflow-x-hidden overflow-y-auto bg-gradient-to-b from-blue-200 via-sky-300 to-cyan-500 flex flex-col items-center">
         <h1 className="font-black text-blue-900 text-6xl md:7xl lg:text-9xl p-3 m-2 flex flex-col items-start w-full">
           Location
           <span className="text-xs md:text-sm font-thin text-gray-700 mx-1">
