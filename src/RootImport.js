@@ -13,6 +13,7 @@ export { default as Dashboard } from "./Sections/user/Dashboard";
 export { default as Profile } from "./Sections/user/Profile";
 export { default as Role } from "./Sections/user/Role";
 export { default as Location } from "./Sections/user/Location";
+export { default as SearchLocationBox } from "./components/Location/SearchBox";
 export { default as RequestWaste } from "./components/waste/RequestWaste";
 export { default as AddWaste } from "./components/waste/AddWaste";
 export { default as WasteProductCard } from "./components/home/WasteProductCard";
@@ -25,3 +26,4 @@ export { setToken as setToken } from "./store/slice/authSlice";
 // Assets
 export { default as LOGO } from "./assets/bg.png";
 export { default as ABOUTMASTIMAGE } from "./assets/bg2.jpg";
+export { default as MAPIMG } from "./assets/map.png";
