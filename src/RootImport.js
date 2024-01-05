@@ -14,10 +14,8 @@ export { default as Profile } from "./Sections/user/Profile";
 export { default as Role } from "./Sections/user/Role";
 export { default as Location } from "./Sections/user/Location";
 export { default as SearchLocationBox } from "./components/Location/SearchBox";
-export { default as RequestWaste } from "./components/waste/RequestWaste";
-export { default as AddWaste } from "./components/waste/AddWaste";
-export { default as WasteProductCard } from "./components/home/WasteProductCard";
-export { default as UserCard } from "./components/home/UserCard";
+export { default as Stats } from "./components/Stats/Stats";
+export { default as User } from "./components/User/UserCard";
 
 // store
 export { setUser as setUser } from "./store/slice/userSlice";
@@ -27,4 +25,6 @@ export { setRole as setRole } from "./store/slice/userSlice";
 // Assets
 export { default as LOGO } from "./assets/bg.png";
 export { default as ABOUTMASTIMAGE } from "./assets/bg2.jpg";
+export { default as DASHBOARDIMAGE } from "./assets/bg3.png";
 export { default as MAPIMG } from "./assets/map.png";
+export { default as EWASTE } from "./assets/ewaste.png";

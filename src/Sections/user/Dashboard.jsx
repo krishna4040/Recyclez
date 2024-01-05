@@ -1,151 +1,63 @@
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { setUser, WasteProductCard, UserCard } from "../../RootImport.js";
+import { Stats, User, DASHBOARDIMAGE } from "../../RootImport.js";
 
 const Dashboard = () => {
-  const dispacth = useDispatch();
-  const { token } = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.user);
-  const [oppoRole, setOppoRole] = useState([]);
-  const [wastes, setWastes] = useState([]);
-
-  const fecthUser = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}getCurrentUserDetails`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.data.success) {
-        toast.error("unable to fecth user details");
-      }
-      const {
-        _id,
-        userName,
-        email,
-        contact,
-        addedWaste,
-        recycledWaste,
-        requestedWaste,
-      } = response.data.data;
-      dispacth(
-        setUser({
-          _id,
-          userName,
-          email,
-          contact,
-          addedWaste,
-          recycledWaste,
-          requestedWaste,
-        })
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fecthOppositeRole = async () => {
-    try {
-      if (user.role === "Receiver") {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}getAllSuppliers`
-        );
-        setOppoRole(response.data.data);
-      }
-      if (user.role === "Supplier") {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}getAllReceivers`
-        );
-        setOppoRole(response.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("uable to fecth opposite role");
-    }
-  };
-
-  const fecthWaste = async () => {
-    try {
-      if (user.role === "Receiver") {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}added-waste`
-        );
-        setWastes(response.data.data);
-      }
-      if (user.role === "Supplier") {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}requested-waste`
-        );
-        setWastes(response.data.data);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("unable to fecth wastes");
-    }
-  };
-
-  useEffect(() => {
-    fecthUser();
-    fecthOppositeRole();
-    fecthWaste();
-  }, []);
-
   return (
     <>
-      <div className="h-[100vh] flex lg:flex-row flex-col bg-green-300 ml-[75px]">
-        <h1 className="hidden text-2xl font-semibold text-center lg:block">
-          {user.role === "Receiver" ? "Our Suppliers" : "Our Receivers"}
-        </h1>
-        <div className="lg:w-[70%] w-full h-[100vh] bg-slate-200 overflow-y-auto p-2 flex flex-col md:flex-row flex-wrap">
-          {oppoRole.length > 0 ? (
-            oppoRole.map((value, index) => {
-              return (
-                <div
-                  key={index}
-                  className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit"
-                >
-                  <UserCard
-                    username={value.username}
-                    email={value.email}
-                    contact={value.contact}
-                  />
-                </div>
-              );
-            })
-          ) : (
-            <div className="loader"></div>
-          )}
-        </div>
-        <div className="lg:w-[30%] w-full h-[100vh] bg-white overflow-y-auto p-2 flex flex-col items-center">
-          <h1 className="hidden text-2xl font-semibold text-center underline lg:block">
-            {user.role === "Receiver" ? "Added Waste" : "Requested Waste"}
+      <section className="w-full lg:h-screen min-h-screen overflow-x-hidden overflow-y-auto bg-gradient-to-r from-gray-200 via-zinc-400 to-slate-500 flex flex-col items-center">
+        <div className="w-full flex flex-col md:flex-row justify-between items-center">
+          <h1 className="font-black text-gray-900 text-5xl md:7xl lg:text-9xl p-3 m-2 flex flex-col items-start w-full">
+            Dashboard
+            <span className="text-xs md:text-sm font-thin text-gray-700 mx-1">
+              graphical user interface
+            </span>
           </h1>
-          <div className="m-2 border-2 border-black border-solid rounded-md w-fit h-fit">
-            {wastes.length > 0 ? (
-              wastes.map((value, index) => {
-                return (
-                  <div key={index} className="m-2">
-                    <WasteProductCard
-                      category={value.category}
-                      measuringUnit={value.measuringUnit}
-                      amount={value.amount}
-                      price={value.price}
-                      departure={value.departure}
-                    />
-                  </div>
-                );
-              })
-            ) : (
-              <div className="loader"></div>
-            )}
+          <img
+            src={DASHBOARDIMAGE}
+            alt="image"
+            width={100}
+            height={100}
+            className="w-24 h-auto rounded-full mx-2"
+            draggable={false}
+          />
+        </div>
+        <h3
+          className="text-xl font-semibold p-1"
+          title="Change it in profile settings"
+        >
+          You are currently a{" "}
+          <span className="font-black text-cyan-900 uppercase text-2xl">
+            Supplier
+          </span>
+        </h3>
+        <div className="mt-3 p-1 w-full flex flex-col items-start">
+          <div className="flex flex-col w-full items-start">
+            <h4 className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold text-black bg-gray-400 px-3 py-1 rounded-full">
+              Receivers{" "}
+              <span className="text-xl text-blue-600 font-extrabold">{`(`}</span>
+              <span className="font-pacifico text-slate-700 text-sm mx-1">
+                Based on your Location
+              </span>
+              <span className="text-xl text-blue-600 font-extrabold">{`)`}</span>
+            </h4>
+            <div className="w-full mt-4 flex flex-row items-center overflow-x-auto">
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+              <User />
+            </div>
+          </div>
+          <div className="w-full mt-4">
+            <Stats />
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };
