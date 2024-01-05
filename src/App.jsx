@@ -9,8 +9,6 @@ import {
   Profile,
   Location,
   Role,
-  RequestWaste,
-  AddWaste,
   Error,
 } from "./RootImport.js";
 
@@ -29,8 +27,6 @@ const App = () => {
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/location" element={<Location />} />
           <Route path="/user/role" element={<Role />} />
-          <Route path="/user/waste/request-waste" element={<RequestWaste />} />
-          <Route path="/user/waste/add-waste" element={<AddWaste />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

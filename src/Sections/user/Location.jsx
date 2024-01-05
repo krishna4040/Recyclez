@@ -1,62 +1,35 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from 'axios'
-import MAP_IMG from "../../assets/map.png";
+import { MAPIMG, SearchLocationBox } from "../../RootImport.js";
 
 const Location = () => {
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }, []);
-
-  const navigate = useNavigate();
-  const dispacth = useDispatch();
-
-  const clickHandler = async () => {
-    navigate('/');
-  }
-
-  const buttonWrapper = (value) => {
-    return (
-      <button onClick={clickHandler} className="w-[190px] h-auto p-2 m-1 rounded-sm border-2 border-solid border-[#447908] bg-[#447908] text-white font-roboto capitalize text-xl md:bg-black md:border-black">
-        {value}
-      </button>
-    );
-  };
-
   return (
-    <section className="w-full h-[100vh] bg-[#2ded74] p-2">
-      <div className="p-1">
-        <h1 className="text-3xl text-center text-black font-montserrat">Location</h1>
-      </div>
-
-      {/* Map */}
-      <div className="flex items-center justify-center w-full">
-        <img src={MAP_IMG} alt="Map" className="w-1/2 mx-auto ml-[180px] border-2 border-solid border-black p-1" />
-      </div>
-
-      {/* Longitude and Latitude */}
-      <div className="flex flex-col items-center justify-center p-1 m-1 rounded-lg bg-slate-50">
-        <h3 className="text-xl text-black font-pacifico">
-          Latitude: {latitude}
-        </h3>
-        <h3 className="text-xl text-black font-pacifico">
-          Longitude: {longitude}
-        </h3>
-        {buttonWrapper("Next")}
-      </div>
-    </section>
+    <>
+      <section className="w-full lg:h-screen min-h-screen overflow-x-hidden overflow-y-auto bg-gradient-to-b from-blue-200 via-sky-300 to-cyan-500 flex flex-col items-center">
+        <h1 className="font-black text-blue-900 text-6xl md:7xl lg:text-9xl p-3 m-2 flex flex-col items-start w-full">
+          Location
+          <span className="text-xs md:text-sm font-thin text-gray-700 mx-1">
+            We will use your location to show result near you.
+          </span>
+        </h1>
+        <div className="m-3 w-full flex flex-col">
+          <h3 className="text-gray-800 text-base font-semibold mx-2">
+            Enter your location <span className="text-orange-600">or</span> give
+            access to the <span className="text-red-600">GPS</span>
+          </h3>
+          <div className="p-3">
+            <SearchLocationBox />
+          </div>
+        </div>
+        <div className="flex flex-col items-center">
+          <img
+            src={MAPIMG}
+            alt="map"
+            width={250}
+            height={250}
+            className="m-2 w-full h-auto border-2 border-solid border-white"
+          />
+        </div>
+      </section>
+    </>
   );
 };
 

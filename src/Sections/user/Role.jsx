@@ -1,30 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import BG_IMG from "../../assets/bg.png";
-import BG_IMG3 from "../../assets/bg3.png";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { setRole } from "../../store/slice/userSlice";
+import { CiBoxes, CiBag1 } from "react-icons/ci";
+import { setRole } from "../../RootImport.js";
 
-const Know_Me = () => {
-  const knowMeBoxes = (text, imgSrc, clickEvent) => {
-    return (
-      <div
-        className="p-1 w-full h-[30vh] md:h-[60vh] md:m-7 flex items-center justify-center flex-col cursor-pointer border-2 border-solid border-black rounded-md m-1"
-        onClick={clickEvent}
-        style={{
-          background: `url(${imgSrc})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
-        <span className="text-[4em] uppercase  font-pacifico p-1 text-black bg-[#b3b1b192] rounded-md">
-          {text}
-        </span>
-      </div>
-    );
-  };
-
+const Role = () => {
   const dispacth = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
@@ -67,20 +48,51 @@ const Know_Me = () => {
 
   return (
     <>
-      <section className="w-full h-[100vh] bg-[#0c9f42] p-2">
-        <div className="flex flex-col items-center justify-center p-1 border-solid border-b-2 border-white transition-all duration-[.5s] ease-in animate-bounce">
-          <h1 className="text-3xl text-white font-roboto">
-            Tell us, Who are you?
-          </h1>
+      <section className="w-full lg:h-screen min-h-screen overflow-x-hidden overflow-y-auto bg-gradient-to-b from-emerald-100 via-green-300 to-emerald-500 flex flex-col items-center">
+        <h1 className="font-black text-emerald-900 text-6xl md:7xl lg:text-9xl p-3 m-2 flex flex-col items-start w-full">
+          Select Role
+          <span className="text-xs md:text-sm font-thin text-gray-700 mx-1">
+            Set up your role, get results based on your role.
+          </span>
+        </h1>
+        <div className="w-full flex flex-col lg:flex-row lg:justify-center items-center p-3">
+          <div
+            className="cursor-pointer bg-black text-white p-3 m-2 flex flex-col items-center justify-between rounded-md hover:bg-gray-700"
+            onClick={() => {}}
+          >
+            <CiBag1 className="text-9xl font-black" />
+            <span className="text-5xl font-bold m-2">Receiver</span>
+          </div>
+          <div
+            className="cursor-pointer bg-black text-white p-3 m-2 flex flex-col items-center justify-between rounded-md hover:bg-gray-700"
+            onClick={() => {}}
+          >
+            <CiBoxes className="text-9xl font-black" />
+            <span className="text-5xl font-bold m-2">Supplier</span>
+          </div>
         </div>
-
-        <div className="p-1 m-2 flex flex-col md:flex-row h-[85vh] items-center justify-center">
-          {knowMeBoxes("Supplier", BG_IMG, supClickHandler)}
-          {knowMeBoxes("Receiver", BG_IMG3, recClickHandler)}
+        <div className="flex flex-row w-full p-6">
+          <div className="p-2 w-1/2">
+            <h3 className="font-bold text-slate-600 text-xl">
+              Who is Receiver?
+            </h3>
+            <p className="w-fit text-black text-left font-thin">
+              The Receiver will see all the supplier joined and can contact to
+              them for the goods that they are supplying.
+            </p>
+          </div>
+          <div className="p-2 w-1/2">
+            <h3 className="font-bold text-slate-600 text-xl">
+              Who is Supplier?
+            </h3>
+            <p className="w-fit text-black text-left font-thin">
+              Their role is provide the goods on time and in better condition.
+            </p>
+          </div>
         </div>
       </section>
     </>
   );
 };
 
-export default Know_Me;
+export default Role;

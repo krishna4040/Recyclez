@@ -1,14 +1,29 @@
 const Hamburger = ({ clickEvent }) => {
   return (
     <>
-      <div
-        className="cursor-pointer flex flex-col items-center justify-center rounded-md border-white border-2 border-solid p-2 w-fit"
-        onClick={clickEvent}
+      <button
+        type="button"
+        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        onClick={() => {
+          clickEvent();
+        }}
       >
-        <div className="h-[3px] text-center bg-white mt-[3px] mb-[2px] w-[21px]"></div>
-        <div className="h-[3px] text-center bg-white mt-[3px] mb-[2px] w-[18px]"></div>
-        <div className="h-[3px] text-center bg-white mt-[3px] mb-[2px] w-[15px]"></div>
-      </div>
+        <svg
+          className="w-5 h-5"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 17 14"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M1 1h15M1 7h15M1 13h15"
+          />
+        </svg>
+      </button>
     </>
   );
 };
