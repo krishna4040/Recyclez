@@ -3,7 +3,7 @@ import { EWASTE } from "../../RootImport.js";
 
 const UserCard = () => {
   return (
-    <div className="w-96 flex flex-col items-center border rounded-lg shadow bg-gray-800 border-gray-700 m-2">
+    <div className="min-w-[298px] flex flex-col items-center border rounded-lg shadow bg-gray-800 border-gray-700 m-2">
       <img
         className="rounded-t-lg w-full max-w-xs h-auto md:max-w-xs border-b-2 border-solid border-gray-700 shadow-sm shadow-gray-600"
         src={EWASTE}
@@ -11,7 +11,7 @@ const UserCard = () => {
         height={250}
         alt="Waste Card"
       />
-      <div className="p-5">
+      <div className="p-5 w-full flex flex-col items-start">
         <div className="text-white">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
             E-Waste
